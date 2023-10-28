@@ -1,7 +1,7 @@
 package com.example.design.controller;
 
 import com.example.design.pojo.UserInfo;
-import com.example.design.service.UserService;
+import com.example.design.service.login.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

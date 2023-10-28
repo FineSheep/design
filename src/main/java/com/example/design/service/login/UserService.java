@@ -1,4 +1,4 @@
-package com.example.design.service;
+package com.example.design.service.login;
 
 import com.example.design.pojo.UserInfo;
 import com.example.design.repo.UserRepository;
