@@ -24,6 +24,6 @@ public class UserInfo {
     private String userPassword;
     @Column(nullable = false)
     private Date createDate;
-    @Column(nullable = false)
+    @Column
     private String userEmail;
 }
