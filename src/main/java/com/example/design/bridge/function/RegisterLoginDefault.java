@@ -21,32 +21,18 @@ public class RegisterLoginDefault extends AbstractRegisterLoginFunc implements R
 
     @Override
     public String login(String account, String password) {
-        UserInfo user = userRepository.findByUserNameAndUserPassword(account, password);
-        if (user == null) {
-            return "ERROR";
-        }
-        return "success";
+        return super.commonLogin(account, password, userRepository);
     }
 
     @Override
     public String register(UserInfo userInfo) {
-        if (checkUserExists(userInfo.getUserName())) {
-            throw new RuntimeException("already register");
-        }
-        userInfo.setCreateDate(new Date());
-        userRepository.save(userInfo);
-        return "Success";
+        return super.commonRegister(userInfo, userRepository);
     }
 
     @Override
     public boolean checkUserExists(String userName) {
-        UserInfo userInfo = userRepository.findByUserName(userName);
-        if (userInfo == null) {
-            return false;
-        }
-        return true;
+        return super.commonCheckUser(userName, userRepository);
     }
-
 
 
 }
