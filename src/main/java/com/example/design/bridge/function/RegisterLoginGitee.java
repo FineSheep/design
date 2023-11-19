@@ -1,6 +1,7 @@
 package com.example.design.bridge.function;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.design.bridge.RegisterLoginComponentFactory;
 import com.example.design.pojo.UserInfo;
 import com.example.design.repo.UserRepository;
 import com.example.design.ytils.HttpClientUtils;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -31,6 +33,14 @@ public class RegisterLoginGitee extends AbstractRegisterLoginFunc implements Reg
     @Autowired
     private UserRepository userRepository;
 
+
+    /**
+     * 工厂注册
+     */
+    @PostConstruct
+    private void innitFuncMap() {
+        RegisterLoginComponentFactory.funcMap.put("gitee", this);
+    }
 
     @Override
     public String login3rd(HttpServletRequest request) {
