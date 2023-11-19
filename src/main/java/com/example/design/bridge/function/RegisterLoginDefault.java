@@ -14,7 +14,7 @@ import java.util.Date;
  * @description
  */
 @Component
-public class RegisterLoginDefault implements RegisterLoginInterface {
+public class RegisterLoginDefault extends AbstractRegisterLoginFunc implements RegisterLoginInterface {
 
     @Autowired
     private UserRepository userRepository;
@@ -47,9 +47,6 @@ public class RegisterLoginDefault implements RegisterLoginInterface {
         return true;
     }
 
-    @Override
-    public String login3rd(HttpServletRequest request) {
-        return null;
-    }
+
 
 }

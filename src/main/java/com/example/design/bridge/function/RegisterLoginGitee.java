@@ -18,7 +18,7 @@ import java.util.Date;
  * @description
  */
 @Component
-public class RegisterLoginGitee implements RegisterLoginInterface {
+public class RegisterLoginGitee extends AbstractRegisterLoginFunc implements RegisterLoginInterface {
 
     @Value("${gitee.state}")
     private String giteeState;
