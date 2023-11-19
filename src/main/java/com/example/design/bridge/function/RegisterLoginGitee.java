@@ -31,33 +31,6 @@ public class RegisterLoginGitee extends AbstractRegisterLoginFunc implements Reg
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public String login(String account, String password) {
-        UserInfo user = userRepository.findByUserNameAndUserPassword(account, password);
-        if (user == null) {
-            return "ERROR";
-        }
-        return "success";
-    }
-
-    @Override
-    public String register(UserInfo userInfo) {
-        if (checkUserExists(userInfo.getUserName())) {
-            throw new RuntimeException("already register");
-        }
-        userInfo.setCreateDate(new Date());
-        userRepository.save(userInfo);
-        return "Success";
-    }
-
-    @Override
-    public boolean checkUserExists(String userName) {
-        UserInfo userInfo = userRepository.findByUserName(userName);
-        if (userInfo == null) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public String login3rd(HttpServletRequest request) {
