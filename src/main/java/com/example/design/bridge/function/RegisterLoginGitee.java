@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.design.bridge.RegisterLoginComponentFactory;
 import com.example.design.pojo.UserInfo;
 import com.example.design.repo.UserRepository;
-import com.example.design.ytils.HttpClientUtils;
+import com.example.design.utils.HttpClientUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;

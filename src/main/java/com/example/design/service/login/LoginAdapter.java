@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.design.pojo.UserInfo;
-import com.example.design.ytils.HttpClientUtils;
+import com.example.design.utils.HttpClientUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
