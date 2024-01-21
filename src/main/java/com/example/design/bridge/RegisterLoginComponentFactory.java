@@ -20,7 +20,7 @@ public class RegisterLoginComponentFactory {
     public static Map<String, RegisterLoginInterface> funcMap = new ConcurrentHashMap<>();
 
     public static AbstractRegisterLoginComponent getComponent(String type) {
-        AbstractRegisterLoginComponent component = componentMap.get("type");
+        AbstractRegisterLoginComponent component = componentMap.get(type);
         if (component == null) {
             synchronized (componentMap) {
                 component = componentMap.get(type);
