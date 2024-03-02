@@ -22,7 +22,7 @@ public class DeprecatedPaydOrder extends DeprecatedAbstractOrderState {
     private DeprecatedSendOrder deprecatedSendOrder;
 
     @Override
-    protected DeprecatedOrder payOrder(String orderId, DeprecatedOrderContext context) {
+    public DeprecatedOrder payOrder(String orderId, DeprecatedOrderContext context) {
 
         DeprecatedOrder order = (DeprecatedOrder) redisCommonProcessor.get(orderId);
         if (!order.getState().equals(ORDER_WAIT_PAY)){
@@ -30,7 +30,7 @@ public class DeprecatedPaydOrder extends DeprecatedAbstractOrderState {
         }
         order.setState(ORDER_WAIT_SEND);
 
-        context.setCurrentState(deprecatedSendOrder);
+//        context.setCurrentState(deprecatedSendOrder);
         return order;
     }
 }

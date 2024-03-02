@@ -22,7 +22,7 @@ public class DeprecatedCreatedOrder extends DeprecatedAbstractOrderState {
     private DeprecatedPaydOrder paydOrder;
 
     @Override
-    protected DeprecatedOrder createOrder(String orderId, String productId, DeprecatedOrderContext context) {
+    public DeprecatedOrder createOrder(String orderId, String productId, DeprecatedOrderContext context) {
         DeprecatedOrder order = DeprecatedOrder.builder()
                 .orderId(orderId)
                 .productId(productId)
@@ -30,7 +30,7 @@ public class DeprecatedCreatedOrder extends DeprecatedAbstractOrderState {
                 .build();
 
         redisCommonProcessor.set(orderId, order, 900);
-        context.setCurrentState(this.paydOrder);
+//        context.setCurrentState(this.paydOrder);
         return order;
     }
 }

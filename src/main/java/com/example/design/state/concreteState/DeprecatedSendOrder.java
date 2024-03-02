@@ -20,14 +20,14 @@ public class DeprecatedSendOrder extends DeprecatedAbstractOrderState {
     private DeprecatedReceiveOrder deprecatedReceiveOrder;
 
     @Override
-    protected DeprecatedOrder sendOrder(String orderId, DeprecatedOrderContext context) {
+    public DeprecatedOrder sendOrder(String orderId, DeprecatedOrderContext context) {
 
         DeprecatedOrder order = (DeprecatedOrder) redisCommonProcessor.get(orderId);
         if (!order.getState().equals(ORDER_WAIT_SEND)){
             throw new UnsupportedOperationException("state error");
         }
         order.setState(ORDER_WAIT_RECEIVE);
-        context.setCurrentState(deprecatedReceiveOrder);
+//        context.setCurrentState(deprecatedReceiveOrder);
         return order;
     }
 }
