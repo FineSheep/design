@@ -7,7 +7,7 @@ public abstract class AbstractProductItem {
     }
 
     //del product
-    protected void adelProductItem(AbstractProductItem item){
+    protected void delProductItem(AbstractProductItem item){
         throw new UnsupportedOperationException("not support child delete");
     }
 }

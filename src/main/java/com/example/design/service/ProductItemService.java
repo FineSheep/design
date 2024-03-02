@@ -5,6 +5,8 @@ import com.example.design.combination.ProductComposite;
 import com.example.design.pojo.ProductItem;
 import com.example.design.repo.ProductItemRepository;
 import com.example.design.utils.RedisCommonProcessor;
+import com.example.design.visitor.AddItemVisitor;
+import com.example.design.visitor.DeleteVisitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,11 @@ public class ProductItemService {
     @Autowired
     private ProductItemRepository productItemRepository;
 
+    @Autowired
+    private AddItemVisitor addItemVisitor;
+    @Autowired
+    private DeleteVisitor deleteVisitor;
+
     public ProductComposite fetchAllItems() {
         Object cacheItems = redisProcessor.get("items");
         if (cacheItems != null) {
@@ -27,10 +34,10 @@ public class ProductItemService {
         }
         List<ProductItem> fetchDbItems = productItemRepository.findAll();
         ProductComposite composite = generateProductTree(fetchDbItems);
-        if (composite==null){
+        if (composite == null) {
             throw new UnsupportedOperationException("no support");
         }
-        redisProcessor.set("item",composite);
+        redisProcessor.set("item", composite);
         return composite;
     }
 
@@ -51,4 +58,31 @@ public class ProductItemService {
         return composite;
     }
 
+    public ProductComposite addItems(ProductItem item) {
+        productItemRepository.addItem(item.getName(), item.getPid());
+        ProductComposite addItem = ProductComposite.builder().id(productItemRepository.findByNameAndPid(item.getName(), item.getId()).getId())
+                .name(item.getName())
+                .pid(item.getPid())
+                .child(new ArrayList<>())
+                .build();
+
+        AbstractProductItem updateItems = addItemVisitor.visitor(addItem);
+
+        redisProcessor.set("items", updateItems);
+        return (ProductComposite) updateItems;
+    }
+
+    public ProductComposite delIterm(ProductItem item) {
+        productItemRepository.delItem(item.getId());
+
+        ProductComposite delItem = ProductComposite.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .pid(item.getPid())
+                .build();
+        AbstractProductItem updateItems = deleteVisitor.visitor(delItem);
+        redisProcessor.set("items", updateItems);
+        return (ProductComposite) updateItems;
+
+    }
 }

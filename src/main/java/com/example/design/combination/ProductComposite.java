@@ -21,12 +21,12 @@ public class ProductComposite extends AbstractProductItem implements Serializabl
     private List<AbstractProductItem> child = new ArrayList<>();
 
     @Override
-    protected void addProductItem(AbstractProductItem item) {
+    public void addProductItem(AbstractProductItem item) {
         this.child.add(item);
     }
 
     @Override
-    protected void adelProductItem(AbstractProductItem item) {
+    public void delProductItem(AbstractProductItem item) {
         ProductComposite removeItem = (ProductComposite) item;
         Iterator<AbstractProductItem> iterator = child.iterator();
         while (iterator.hasNext()) {
