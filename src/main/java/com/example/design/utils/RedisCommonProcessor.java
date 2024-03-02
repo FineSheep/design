@@ -33,4 +33,8 @@ public class RedisCommonProcessor {
 
     }
 
+    public void remove(String key){
+        redisTemplate.delete(key);
+    }
+
 }
