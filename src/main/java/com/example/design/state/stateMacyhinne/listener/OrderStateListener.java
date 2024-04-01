@@ -1,5 +1,7 @@
 package com.example.design.state.stateMacyhinne.listener;
 
+import com.example.design.orderManager.OrderCommand;
+import com.example.design.orderManager.OrderCommanndInvoker;
 import com.example.design.state.stateMacyhinne.enums.OrderState;
 import com.example.design.state.stateMacyhinne.enums.OrderStateChangeAction;
 import com.example.design.state.stateMacyhinne.pojo.Order;
@@ -21,6 +23,8 @@ public class OrderStateListener {
 
     @Autowired
     private RedisCommonProcessor redisCommonProcessor;
+    @Autowired
+    private OrderCommand orderCommand;
 
     @OnTransition(source = "ORDER_WAIT_PAY",target = "ORDER_WAIT_SEND")
     public boolean payToSennd(Message<OrderStateChangeAction> message){
@@ -31,6 +35,9 @@ public class OrderStateListener {
 
         order.setOrderState(OrderState.ORDER_WAIT_SEND);
         redisCommonProcessor.set(order.getOrderId(), order);
+
+        OrderCommanndInvoker invoker = new OrderCommanndInvoker();
+        invoker.invoke(orderCommand,order);
         return true;
     }
 
@@ -43,6 +50,8 @@ public class OrderStateListener {
         order.setOrderState(OrderState.ORDER_FINISH);
         redisCommonProcessor.remove(order.getOrderId());
 
+        OrderCommanndInvoker invoker = new OrderCommanndInvoker();
+        invoker.invoke(orderCommand,order);
         return true;
     }
 }

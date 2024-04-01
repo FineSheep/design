@@ -1,5 +1,7 @@
 package com.example.design.service;
 
+import com.example.design.orderManager.OrderCommand;
+import com.example.design.orderManager.OrderCommanndInvoker;
 import com.example.design.state.stateMacyhinne.enums.OrderState;
 import com.example.design.state.stateMacyhinne.enums.OrderStateChangeAction;
 import com.example.design.state.stateMacyhinne.pojo.Order;
@@ -30,6 +32,8 @@ public class OrderService   {
     @Autowired
     private RedisCommonProcessor redisCommonProcessor;
 
+    @Autowired
+    private OrderCommand orderCommand;
 
     //订单创建
     public Order createOrder(String productId) {
@@ -42,6 +46,9 @@ public class OrderService   {
                 .orderState(OrderState.ORDER_WAIT_PAY)
                 .build();
         redisCommonProcessor.set(order.getOrderId(), order, 900);
+
+        OrderCommanndInvoker invoker = new OrderCommanndInvoker();
+        invoker.invoke(orderCommand,order);
         return order;
     }
 
