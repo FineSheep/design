@@ -1,5 +1,6 @@
 package com.example.design.service;
 
+import com.example.design.facade.PayFacade;
 import com.example.design.orderManager.OrderCommand;
 import com.example.design.orderManager.OrderCommanndInvoker;
 import com.example.design.state.stateMacyhinne.enums.OrderState;
@@ -112,6 +113,13 @@ public class OrderService   {
         return false;
     }
 
+    @Autowired
+    private PayFacade payFacade;
 
+    public String getPayUrl(String orderId, Float price, Integer payType) {
 
+        Order order = (Order) redisCommonProcessor.get(orderId);
+        order.setPrice(price);
+        return payFacade.pay(order, payType);
+    }
 }

@@ -45,8 +45,8 @@ public class OrderController {
      * @return
      */
     @PostMapping("pay")
-    public Order payOrder (@RequestParam String orderId){
-        return orderService.pay(orderId);
+    public String payOrder (@RequestParam String orderId,@RequestParam Float price,@RequestParam Integer payType){
+        return orderService.getPayUrl(orderId,price,payType);
     }
 
     /**
@@ -68,7 +68,7 @@ public class OrderController {
         return orderService.receive(orderId);
     }
 
-    @RequestMapping("/alipaycallback")
+    @RequestMapping("/aliPayCallback")
     public String alipayCallback(HttpServletRequest request) throws AlipayApiException, UnsupportedEncodingException, UnsupportedEncodingException {
         // 获取回调信息
         Map<String, String> params = new HashMap<String, String>();

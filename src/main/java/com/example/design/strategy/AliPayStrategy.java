@@ -3,21 +3,31 @@ package com.example.design.strategy;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.example.design.factory.PayFactory;
+import com.example.design.factory.StrategyEnum;
 import com.example.design.state.stateMacyhinne.pojo.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.xml.ws.Action;
 
 /**
  * @author yanghao
  * @createTime 2024/4/1 15:19
  * @description
  */
+@Component
+public class AliPayStrategy implements StrategyInterface {
 
-public class AliPayStrategy implements StrategyInterface{
+    @Autowired
+    private AlipayClient alipayClient;
+    @PostConstruct
+    private void innitPay(){
+        PayFactory.payContexts.put(StrategyEnum.alipay.name(), new PayContext(this));
+    }
     @Override
     public String pay(Order order) {
-        //创建 Alipay client
-        AlipayClient alipayClient = new DefaultAlipayClient(Constants.ALIPAY_GATEWAY,
-                Constants.APP_ID,Constants.APP_PRIVATE_LEY,"JSON","UTF-8",
-                Constants.ALIPAY_PUBLIC_KEY,Constants.SIGN_TYPE);
         //设置请求参数
         AlipayTradePagePayRequest payRequest = new AlipayTradePagePayRequest();
         payRequest.setReturnUrl(Constants.CALLBACK_URL);
@@ -28,7 +38,7 @@ public class AliPayStrategy implements StrategyInterface{
                 + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
         //请求
         try {
-            String result = alipayClient.pageExecute(payRequest,"GET").getBody();
+            String result = alipayClient.pageExecute(payRequest, "GET").getBody();
             return result;
         } catch (Exception e) {
             throw new UnsupportedOperationException("Alipay failed! " + e);
